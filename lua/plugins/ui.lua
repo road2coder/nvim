@@ -1,4 +1,24 @@
 return {
+  -- 很多 ui 相关插件的插件的依赖
+  {
+    "nvim-tree/nvim-web-devicons",
+    opts = {
+      override = {
+        deb = { icon = "", name = "Deb" },
+        lock = { icon = "󰌾", name = "Lock" },
+        mp3 = { icon = "󰎆", name = "Mp3" },
+        mp4 = { icon = "", name = "Mp4" },
+        out = { icon = "", name = "Out" },
+        ["robots.txt"] = { icon = "󰚩", name = "Robots" },
+        ttf = { icon = "", name = "TrueTypeFont" },
+        rpm = { icon = "", name = "Rpm" },
+        woff = { icon = "", name = "WebOpenFontFormat" },
+        woff2 = { icon = "", name = "WebOpenFontFormat2" },
+        xz = { icon = "", name = "Xz" },
+        zip = { icon = "", name = "Zip" },
+      },
+    },
+  },
   -- 全局主题
   {
     "catppuccin/nvim",
@@ -43,9 +63,84 @@ return {
     },
     config = function (_, opts)
       require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin")
+      vim.cmd.colorscheme("catppuccin-macchiato")
     end
   },
+  -- 首页
+  {
+    "nvimdev/dashboard-nvim",
+    event = "VimEnter",
+    opts = function()
+      local logo = [[
+          ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⡿⠛⠁⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⣀⣤⣴⡶⠾⠿⠟⠛⠛⠛⠛⠛⠿⢶⠆⠀⠀⠐⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡷⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠈⠀⢀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⢀⠰⠀⠰⠈⠀⠈⠀⠀⠁⠀⠆⠈⠀⠀⢀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠄⠈⠀⠀⢀⠀⠀⠄⠂⠀⠁⠀⠄⠀⠠⠀⠠⠀⠀⡀⠘⠣⠄⠩⠩⠙⠻⢿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⠏⢀⣤⣤⡀⠂⠀⠀⠂⠈⠀⠀⠠⠀⠀⠐⠀⠠⠀⠂⣠⣶⣦⠀⠀⢀⠀⠀⠀⠀⢀⠀⠀⠘⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⡏⠀⣾⣿⣿⡟⠀⠀⠁⢰⡄⢀⣼⣶⣄⢈⣰⡆⠀⢀⢸⣿⣿⣿⠇⠀⠀⢀⠈⠀⠈⠀⠀⠠⠀⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⠁⠀⠙⠿⠋⠁⠀⠀⠂⠈⠛⠛⠉⠀⠉⠋⠉⠀⠀⡀⠀⠙⠛⠛⠀⠀⠈⠀⠀⡀⠁⠀⠂⠀⠀⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⢀⠀⠁⠀⠄⠀⡀⠠⠀⠀⠄⠀⠐⠀⠀⠠⠀⢀⠀⢀⠀⠁⠀⠄⠀⠀⠂⠀⠈⢰⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⡄⠀⠁⢀⠀⠠⠐⠀⠀⠄⠀⢀⠀⠂⠀⠐⠀⠀⠂⠀⠠⠀⠀⡀⠀⠐⠀⢀⠀⠁⠀⠈⠀⣸⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⡀⠆⠀⢀⠀⠀⠀⠆⠀⠀⠁⠀⠰⠀⠀⡀⠀⠀⠆⠈⠀⠀⠀⠁⠀⢶⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⡈⠀⢀⠀⠀⠠⢀⣀⣐⣀⡀⠈⠀⠀⠂⠀⠠⠀⠀⠀⠂⠀⡀⠄⠀⠁⠀⢤⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠘⣶⣮⣥⣤⣠⣄⣤⣀⣈⣁⣂⣦⣄⠀⢐⣮⣤⣤⡀⣠⣤⣴⣌⣰⣿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ]]
+
+      local header = {}
+      logo = string.rep("\n", 6) .. logo .. "\n"
+      for _, val in ipairs(vim.split(logo, "\n")) do
+        local s = string.gsub(val, "%s+", "")
+        table.insert(header, s)
+      end
+
+      local opts = {
+        theme = "doom",
+        hide = {
+          statusline = false,
+        },
+        config = {
+          header = header,
+          center = {
+            { icon = " ", key = "f", desc = " Find file", action = "Telescope find_files" },
+            { icon = " ", key = "n", desc = " New file", action = "ene | startinsert" },
+            { icon = " ", key = "r", desc = " Recent files", action = "Telescope oldfiles" },
+            { icon = " ", key = "g", desc = " Find text", action = "Telescope live_grep" },
+            { icon = " ", key = "s", desc = " Restore Session", action = 'lua require("persistence").load()' },
+            { icon = " ", key = "x", desc = " Lazy Extras", action = "LazyExtras" },
+            { icon = "󰒲 ", key = "l", desc = " Lazy", action = "Lazy" },
+            { icon = " ", key = "q", desc = " Quit", action = "qa" },
+          },
+          footer = function()
+            local stats = require("lazy").stats()
+            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+            return { "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
+          end,
+        },
+      }
+
+      for _, button in ipairs(opts.config.center) do
+        button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
+        button.key_format = "  %s"
+      end
+
+      -- close Lazy and re-open when the dashboard is ready
+      if vim.o.filetype == "lazy" then
+        vim.cmd.close()
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "DashboardLoaded",
+          callback = function()
+            require("lazy").show()
+          end,
+        })
+      end
+
+      return opts
+    end,
+  },
+
   -- 顶部 buffer
   {
     "akinsho/bufferline.nvim",
@@ -75,6 +170,14 @@ return {
         --   .. (diag.warning and icons.Warn .. diag.warning or "")
         --   return vim.trim(ret)
         -- end,
+        offsets = {
+          {
+            filetype = "neo-tree",
+            text = "Neo-tree",
+            highlight = "Directory",
+            text_align = "left",
+          },
+        },
       },
     },
     config = function(_, opts)
@@ -87,6 +190,20 @@ return {
         end,
       })
     end,
+  },
+  -- 底部工具栏
+  {
+    'nvim-lualine/lualine.nvim',
+    event = "VeryLazy",
+    init = function()
+      vim.g.lualine_laststatus = vim.o.laststatus
+      if vim.fn.argc(-1) > 0 then
+        vim.o.statusline = " "
+      else
+        vim.o.laststatus = 0
+      end
+    end,
+    opts = {},
   },
   -- 缩进线
   {
@@ -122,6 +239,56 @@ return {
         },
       })
     end
+  },
+  {
+    "MunifTanjim/nui.nvim",
+  },
+  -- 更人性化的通知
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+    opts = {
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      routes = {
+        {
+          filter = {
+            event = "msg_show",
+            any = {
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
+            },
+          },
+          view = "mini",
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = true,
+      },
+    },
+    -- stylua: ignore
+    keys = {
+      { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
+      { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
+      { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
+      { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
+      { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
+      { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} },
+      { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}},
+    },
   }
 }
 

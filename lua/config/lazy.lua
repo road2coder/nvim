@@ -17,11 +17,12 @@ require("lazy").setup("plugins", {
   defaults = {
     lazy = true,
     cond = function(opt)
+      -- 在 vscode 中，有 vscode 字段才启用插件
       return not_in_vsc or opt.vscode
     end,
   },
   install = {
-    colorscheme = {},
+    colorscheme = { "catppuccin-macchiato" },
   },
   checker = { enabled = not_in_vsc },
   performance = {

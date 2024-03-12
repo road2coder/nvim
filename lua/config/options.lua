@@ -10,6 +10,7 @@
 --    vim.opt 和 vim.o 作用相同，但用法不同，可以参考 :h vim.opt
 -- 而和 let 相关的有 vim.g vim.w vim.b 等，它们设置的变量的生效范围不同。
 local opt = vim.opt
+local icons = require("icons")
 
 vim.g.mapleader = " " -- leader 键，需要在设置按键映射之前设置
 
@@ -59,8 +60,8 @@ if not vim.g.vscode then
   opt.winminwidth = 5
   opt.wrap = false -- 代码过长时不换行
   opt.fillchars = {
-    foldopen = "",
-    foldclose = "",
+    foldopen = icons.FoldOpened,
+    foldclose = icons.FoldOpened,
     fold = "·",
     foldsep = " ",
     -- diff = "╱",
