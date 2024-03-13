@@ -18,6 +18,7 @@ map("v", "\\e", curry(utils.copy_selection, "pascal"), { desc = "copy(pascal)" }
 map("v", "\\r", curry(utils.copy_selection, "snake"), { desc = "copy(snake)" })
 
 map("v", "p", '"_dP', { desc = "paste multiple times" }) -- 一次复制可粘贴多次
+map("n", "\\i", "ggVG=<C-o><CR>")
 
 if not vim.g.vscode then
   -- 更好的上下移动
