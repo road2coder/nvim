@@ -1,3 +1,4 @@
+local lsp = require("config.plugins.nvim-lspconfig")
 return {
   {
     "williamboman/mason.nvim",
@@ -18,7 +19,7 @@ return {
           package_pending = "⟳",
         },
       },
-      -- 自动安装，lsp 写在 mason-lspconfig 里
+      -- 自动安装，lsp 写在 nvim-lspconfig 里
       ensure_installed = { "eslint_d", "stylua", },
     },
     build = ":MasonUpdate",
@@ -50,10 +51,10 @@ return {
     end
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
     event = "VeryLazy",
-    opts = {
-      ensure_installed = { "lua_ls" },
-    },
+    dependencies = lsp.dependencies,
+    opts = lsp.opts,
+    config = lsp.config,
   },
 }

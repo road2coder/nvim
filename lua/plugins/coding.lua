@@ -1,4 +1,5 @@
 local surround = require("config.plugins.mini.surround")
+local comment = require("config.plugins.comment")
 
 return {
   -- surround 操作
@@ -7,34 +8,21 @@ return {
     keys = surround.keys,
     opts = surround.opts,
   },
-  -- 不同位置不同注释（如 vue）
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    lazy = true,
-    opts = {
-      enable_autocmd = false,
-    },
-  },
   -- 注释
   {
     "numToStr/Comment.nvim",
     vscode = true,
-    event = "VeryLazy",
-    keys = {
+    dependencies = {
+      -- 不同位置不同注释（如 vue）
       {
-        "\\c",
-        function()
-          local fn = require("Comment.api").locked("insert.linewise.eol")
-          fn("line")
-        end,
-        desc = "Comment insert end of line",
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        opts = {
+          enable_autocmd = false,
+        },
       },
     },
-    config = function()
-      local ts_comment = require('ts_context_commentstring.integrations.comment_nvim')
-      require("Comment").setup({
-        pre_hook = ts_comment.create_pre_hook(),
-      })
-    end
+    event = "VeryLazy",
+    keys = comment.keys,
+    config = comment.config,
   }
 }

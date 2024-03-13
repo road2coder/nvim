@@ -62,6 +62,10 @@ if not vim.g.vscode then
 
   map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" }) -- 退出
   map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" }) -- 创建新的 buffer
+
+  -- insert 使用 ctrl + shift + v 可粘贴
+  map("!", "<c-s-v>", "<c-r>+", { desc = "paste" })
+  map("!", "", "<c-r>+", { desc = "paste" })
 else
   local action = require("vscode-neovim").action
 
