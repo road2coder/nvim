@@ -70,6 +70,17 @@ function M.on_load(name, fn)
   end
 end
 
+function M.on_attach(on_attach)
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      local buffer = args.buf
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      on_attach(client, buffer)
+    end,
+  })
+end
+
+
 -- 简单的柯里化函数
 function M.curry(fn, ...)
   local args = {}

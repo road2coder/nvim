@@ -79,6 +79,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
+local ime_grp = augroup("input_method" )
 -- 进入 nvim、离开 insert 模式时，自动切换至英文输入法
 autocmd({ "InsertLeave", "VimEnter" }, {
   group = ime_grp,

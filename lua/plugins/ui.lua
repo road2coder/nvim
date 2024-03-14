@@ -3,6 +3,7 @@ local bufferline = require("config.plugins.bufferline")
 local indentscope = require("config.plugins.mini.indentscope")
 local lualine = require("config.plugins.lualine")
 local noice = require("config.plugins.noice")
+local navic = require("config.plugins.nvim-navic")
 return {
   -- 很多 ui 相关插件的插件的依赖
   {
@@ -57,6 +58,13 @@ return {
     dependencies = noice.dependencies,
     opts = noice.opts,
     keys = noice.keys,
-  }
+  },
+  -- 顶部 symbols，需要 lsp 支持
+  {
+    "SmiteshP/nvim-navic",
+    lazy = false,
+    init = navic.init,
+    opts = navic.opts,
+  },
 }
 
