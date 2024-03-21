@@ -15,7 +15,7 @@ local not_in_vsc = not vim.g.vscode
 
 require("lazy").setup("plugins", {
   defaults = {
-    lazy = true,
+    lazy = false,
     cond = function(opt)
       -- 在 vscode 中，有 vscode 字段才启用插件
       return not_in_vsc or opt.vscode

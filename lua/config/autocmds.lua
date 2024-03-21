@@ -79,7 +79,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
-local ime_grp = augroup("input_method" )
+local ime_grp = augroup("input_method")
 -- 进入 nvim、离开 insert 模式时，自动切换至英文输入法
 autocmd({ "InsertLeave", "VimEnter" }, {
   group = ime_grp,
@@ -90,4 +90,16 @@ autocmd({ "InsertLeave", "VimEnter" }, {
 autocmd({ "InsertEnter", "VimLeave" }, {
   group = ime_grp,
   callback = utils.switch_ime_cn,
+})
+
+-- 自动设置主题
+autocmd("User", {
+  pattern = "LazyLoad",
+  callback = function(event)
+    for _, v in ipairs(vim.g.colorschemes or {}) do
+      if event.data == v then
+        vim.cmd.colorscheme(vim.g.colorscheme)
+      end
+    end
+  end,
 })

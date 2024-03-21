@@ -15,12 +15,12 @@ return {
   },
   opts = function()
     local actions = require("telescope.actions")
-    local icons = require("icons")
+    local icons = require("config").icons
     return {
       defaults = {
         git_worktrees = vim.g.git_worktrees,
-        prompt_prefix = icons.Selected.." ",
-        selection_caret = icons.Caret.." ",
+        prompt_prefix = icons.others.Selected,
+        selection_caret = icons.others.Caret,
         path_display = { "truncate" },
         sorting_strategy = "ascending",
         layout_config = {
@@ -45,14 +45,14 @@ return {
   keys = {
     {
       "<leader>,",
-      "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
+      "<CMD>Telescope buffers sort_mru=true sort_lastused=true<CR>",
       desc = "Switch Buffer",
     },
-    { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+    { "<leader>:", "<CMD>Telescope command_history<CR>", desc = "Command History" },
     -- find
-    { "<leader>fb", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
-    { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "File Files" },
-    { "<leader>fg", "<cmd>Telescope git_files<cr>", desc = "Find Files (git)" },
+    { "<leader>fb", "<CMD>Telescope buffers sort_mru=true sort_lastused=true<CR>", desc = "Buffers" },
+    { "<leader>ff", "<CMD>Telescope find_files<CR>", desc = "File Files" },
+    { "<leader>fg", "<CMD>Telescope git_files<CR>", desc = "Find Files (git)" },
     {
       "<leader>fr",
       function()
@@ -60,33 +60,31 @@ return {
       end,
       desc = "Recent (cwd)",
     },
-    { "<leader>fR", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
+    { "<leader>fR", "<CMD>Telescope oldfiles<CR>", desc = "Recent" },
     -- git
-    { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
-    { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "status" },
+    { "<leader>gc", "<CMD>Telescope git_commits<CR>", desc = "commits" },
+    { "<leader>gs", "<CMD>Telescope git_status<CR>", desc = "status" },
     -- search
-    { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
-    { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
-    { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
-    { "<leader>sc", "<cmd>Telescope command_history<cr>", desc = "Command History" },
-    { "<leader>sC", "<cmd>Telescope commands<cr>", desc = "Commands" },
-    { "<leader>sd", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document diagnostics" },
-    { "<leader>sD", "<cmd>Telescope diagnostics<cr>", desc = "Workspace diagnostics" },
-    { "<leader>sg", "<cmd>Telescope live_grep<cr>", desc = "Telescope live_grep(cwd)" },
-    {
-      "<leader>sG",
-      function()
-        require("telescope.builtin").live_grep({ cwd = vim.loop.cwd() })
-      end,
-      desc = "Telescope live_grep(root dir)"
-    },
-    { "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "Help Pages" },
-    { "<leader>sH", "<cmd>Telescope highlights<cr>", desc = "Search Highlight Groups" },
-    { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
-    { "<leader>sM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
-    { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
-    { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
-    { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
+    { '<leader>s"', "<CMD>Telescope registers<CR>", desc = "Registers" },
+    { "<leader>sa", "<CMD>Telescope autocommands<CR>", desc = "Auto Commands" },
+    { "<leader>sb", "<CMD>Telescope current_buffer_fuzzy_find<CR>", desc = "Buffer" },
+    { "<leader>sc", "<CMD>Telescope command_history<CR>", desc = "Command History" },
+    { "<leader>sC", "<CMD>Telescope commands<CR>", desc = "Commands" },
+    { "<leader>sg", "<CMD>Telescope live_grep<CR>", desc = "Telescope live_grep(cwd)" },
+    -- {
+    --   "<leader>sG",
+    --   function()
+    --     require("telescope.builtin").live_grep({ cwd = vim.loop.cwd() })
+    --   end,
+    --   desc = "Telescope live_grep(root dir)"
+    -- },
+    { "<leader>sh", "<CMD>Telescope help_tags<CR>", desc = "Help Pages" },
+    { "<leader>sH", "<CMD>Telescope highlights<CR>", desc = "Search Highlight Groups" },
+    { "<leader>sk", "<CMD>Telescope keymaps<CR>", desc = "Key Maps" },
+    { "<leader>sM", "<CMD>Telescope man_pages<CR>", desc = "Man Pages" },
+    { "<leader>sm", "<CMD>Telescope marks<CR>", desc = "Jump to Mark" },
+    { "<leader>so", "<CMD>Telescope vim_options<CR>", desc = "Options" },
+    { "<leader>sR", "<CMD>Telescope resume<CR>", desc = "Resume" },
     {
       "<leader>sw",
       function()
@@ -110,23 +108,5 @@ return {
       end,
       desc = "Colorscheme with preview",
     },
-    -- {
-    --   "<leader>ss",
-    --   function()
-    --     require("telescope.builtin").lsp_document_symbols({
-    --       symbols = require("lazyvim.config").get_kind_filter(),
-    --     })
-    --   end,
-    --   desc = "Goto Symbol",
-    -- },
-    -- {
-    --   "<leader>sS",
-    --   function()
-    --     require("telescope.builtin").lsp_dynamic_workspace_symbols({
-    --       symbols = require("lazyvim.config").get_kind_filter(),
-    --     })
-    --   end,
-    --   desc = "Goto Symbol (Workspace)",
-    -- },
   },
 }

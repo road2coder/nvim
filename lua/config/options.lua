@@ -10,7 +10,7 @@
 --    vim.opt 和 vim.o 作用相同，但用法不同，可以参考 :h vim.opt
 -- 而和 let 相关的有 vim.g vim.w vim.b 等，它们设置的变量的生效范围不同。
 local opt = vim.opt
-local icons = require("icons")
+local icons = require("config").icons
 
 vim.g.mapleader = " " -- leader 键，需要在设置按键映射之前设置
 
@@ -21,12 +21,19 @@ opt.smartcase = true -- 智能忽略大小写
 opt.undofile = true -- 持久化操作记录
 opt.undolevels = 10000
 if not vim.g.vscode then
+  vim.g.colorscheme = "tokyonight-storm"
+  -- 安装了的主题，会在该主题加载后，自动设置 colorscheme
+  vim.g.colorschemes = {
+    "tokyonight.nvim",
+    "catppuccin",
+    "onedarkpro.nvim",
+  }
   opt.autowrite = true
   opt.completeopt = "menu,menuone,noselect"
   opt.conceallevel = 2
   opt.confirm = true
   opt.cursorline = true
-  opt.cmdheight = 0 -- 非必时，隐藏命令行
+  opt.cmdheight = 0 -- 非必要时，隐藏命令行
   opt.expandtab = true -- 使用空格（space）进行缩进而不是制表符（tab）
   opt.shiftwidth = 2 -- 一个综进的空格数
   opt.smartindent = true
@@ -60,19 +67,21 @@ if not vim.g.vscode then
   opt.winminwidth = 5
   opt.wrap = false -- 代码过长时不换行
   opt.fillchars = {
-    foldopen = icons.FoldOpened,
-    foldclose = icons.FoldOpened,
-    fold = "·",
+    foldopen = "",
+    foldclose = "",
+    -- fold = "·",
     foldsep = " ",
     -- diff = "╱",
-    -- eob = " ",
+    fold = " ",
+    eob = " ",
   }
 
   if vim.fn.has("wsl") == 1 then
-    vim.g.netrw_browsex_viewer="cmd.exe /C start" -- wsl 中按 gx 可打开 windows 浏览器
+    vim.g.netrw_browsex_viewer = "cmd.exe /C start" -- wsl 中按 gx 可打开 windows 浏览器
   end
 
-  vim.o.statuscolumn = "%!v:lua.require('utils').statuscolumn()"
+  vim.o.statuscolumn = "%!v:lua.require('utils.ui').statuscolumn()"
+  -- vim.o.statuscolumn = "%!v:lua.require('utils').statuscolumn()"
 else
   opt.timeoutlen = 1000
 end

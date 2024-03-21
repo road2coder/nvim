@@ -1,5 +1,6 @@
 return {
   config = function (_, opts)
+    print("catppuccin config")
     require("catppuccin").setup(opts)
     vim.cmd.colorscheme("catppuccin-macchiato")
   end,

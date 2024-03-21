@@ -1,4 +1,5 @@
 local M = {}
+
 function M.switch_ime_en()
   local has = vim.fn.has
   if has("win32") == 1 or has("wsl") == 1 then
@@ -13,44 +14,6 @@ function M.switch_ime_cn()
   if has("win32") == 1 or has("wsl") == 1 then
     vim.fn.system({ "im-select.exe", "2052" })
   end
-end
-
--- 左侧状栏的格式
-function M.statuscolumn() 
-  local win = vim.g.statusline_winid
-  local buf = vim.api.nvim_win_get_buf(win)
-  local is_file = vim.bo[buf].buftype == ""
-  if not is_file then
-    return ""
-  end
-  local show_signs = vim.wo[win].signcolumn ~= "no"
-
-  -- TODO 计算左侧图标、gitsigns 等
-  local left, middle, right = "", "", ""
-
-  -- 中间行号部分
-  local no = vim.wo[win].number
-  local relno = vim.wo[win].relativenumber
-  if (no or relno) and vim.v.virtnum == 0 then
-    if vim.v.relnum == 0 then
-      middle = no and "%l" or "%r" -- 当前行
-    else
-      middle = relno and "%r" or "%l" -- 其它行
-    end
-    middle = "%=" .. middle .. " " -- 向右对齐
-  end
-
-  -- 右侧
-  local lnum = vim.v.lnum
-  local foldl = vim.fn.foldlevel
-  if foldl(lnum) > foldl(lnum - 1) then
-    local fcs = vim.opt.fillchars:get()
-    right = vim.fn.foldclosed(lnum) == -1 and fcs.foldopen or fcs.foldclose
-    right = right.." "
-  else
-    right = "  "
-  end
-  return left..middle..right
 end
 
 function M.on_load(name, fn)
@@ -80,7 +43,6 @@ function M.on_attach(on_attach)
   })
 end
 
-
 -- 简单的柯里化函数
 function M.curry(fn, ...)
   local args = {}
@@ -100,16 +62,21 @@ end
 
 -- 获取 visual 模式选中的文本（非 normal 为上次选中）
 function M.get_selection()
-  local a_orig = vim.fn.getreg("a")
   local mode = vim.fn.mode()
   if mode ~= "v" and mode ~= "V" then
-    -- vim.cmd([[normal! gv]])
     return ""
   end
-  vim.cmd([[silent! normal! "aygv]])
-  local text = vim.fn.getreg("a")
-  vim.fn.setreg("a", a_orig)
-  return text
+  local line_start = vim.fn.line("v")
+  local line_end = vim.fn.line(".")
+  local col_start = vim.fn.col("v")
+  local col_end = vim.fn.col(".")
+  local t = nil
+  if mode == "V" then
+    t = vim.api.nvim_buf_get_lines(0, line_start - 1, line_end, true)
+  else
+    t = vim.api.nvim_buf_get_text(0, line_start - 1, col_start - 1, line_end - 1, col_end, {})
+  end
+  return table.concat(t, vim.opt.fileformat:get() == "dos" and "\r\n" or "\n")
 end
 
 -- 替换选中的内容
@@ -124,6 +91,7 @@ function M.replace_selection(case)
   vim.api.nvim_feedkeys(key, "n", true)
 end
 
+-- 复制选中内容的指定格式
 function M.copy_selection(case)
   local str = M.get_selection()
   if not str then

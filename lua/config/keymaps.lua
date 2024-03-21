@@ -20,6 +20,12 @@ map("v", "\\r", curry(utils.copy_selection, "snake"), { desc = "copy(snake)" })
 map("v", "p", '"_dP', { desc = "paste multiple times" }) -- 一次复制可粘贴多次
 map("n", "\\i", "ggVG=<C-o><CR>")
 
+-- insert 模式下使用 ctrl-h/l 左右移动
+map("i", "<C-h>", "<Left>", { noremap = true, silent = true })
+map("i", "<C-j>", "<Down>", { noremap = true, silent = true })
+map("i", "<C-k>", "<Up>", { noremap = true, silent = true })
+map("i", "<C-l>", "<Right>", { noremap = true, silent = true })
+
 if not vim.g.vscode then
   -- 更好的上下移动
   map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -67,6 +73,21 @@ if not vim.g.vscode then
   -- insert 使用 ctrl + shift + v 可粘贴
   map("!", "<c-s-v>", "<c-r>+", { desc = "paste" })
   map("!", "", "<c-r>+", { desc = "paste" })
+
+  -- 快速跳转到诊断位置
+  local diagnostic_goto = function(next, severity)
+    local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+    severity = severity and vim.diagnostic.severity[severity] or nil
+    return function()
+      go({ severity = severity })
+    end
+  end
+  map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
+  map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
+  map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+  map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+  map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
+  map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 else
   local action = require("vscode-neovim").action
 
@@ -76,5 +97,3 @@ else
   map("n", "H", curry(action, "workbench.action.previousEditorInGroup"))
   map("n", "L", curry(action, "workbench.action.nextEditorInGroup"))
 end
-
-

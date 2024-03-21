@@ -49,31 +49,39 @@ return {
       end,
       -- 在左边时，失去焦点
       blur_when_left = function(state)
-        if (state.current_position == "left") then
+        if state.current_position == "left" then
           vim.cmd.wincmd("p")
         end
       end,
     },
     window = {
-      width = 30,
+      width = 35,
       mappings = {
         ["<space>"] = false, -- disable space until we figure out which-key disabling
-          --["[b"] = "prev_source",
-          --["]b"] = "next_source",
+        --["[b"] = "prev_source",
+        --["]b"] = "next_source",
         h = "parent_or_close",
         l = "child_or_open",
         o = "open",
-        ["<leader>o"] = "blur_when_left"
+        ["<leader>o"] = "blur_when_left",
       },
     },
     filesystem = {
       follow_current_file = { enabled = true },
       hijack_netrw_behavior = "open_current",
-      use_libuv_file_watcher = vim.fn.has "win32" ~= 1,
+      use_libuv_file_watcher = vim.fn.has("win32") ~= 1,
     },
     fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
       ["<C-j>"] = "move_cursor_down",
       ["<C-k>"] = "move_cursor_up",
     },
   },
+  config = function(_, opts)
+    local diagnostics = require("config").icons.diagnostics
+    vim.fn.sign_define("DiagnosticSignError", { text = diagnostics.Error, texthl = "DiagnosticSignError" })
+    vim.fn.sign_define("DiagnosticSignWarn", { text = diagnostics.Warn, texthl = "DiagnosticSignWarn" })
+    vim.fn.sign_define("DiagnosticSignInfo", { text = diagnostics.Info, texthl = "DiagnosticSignInfo" })
+    vim.fn.sign_define("DiagnosticSignHint", { text = diagnostics.Hint, texthl = "DiagnosticSignHint" })
+    require("neo-tree").setup(opts)
+  end,
 }

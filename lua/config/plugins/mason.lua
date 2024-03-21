@@ -10,11 +10,7 @@ return {
   },
   opts = {
     ui = {
-      icons = {
-        package_installed = "✓",
-        package_uninstalled = "✗",
-        package_pending = "⟳",
-      },
+      icons = require("config").icons.mason,
     },
     -- 自动安装，lsp 写在 nvim-lspconfig 里
     ensure_installed = { "eslint_d", "stylua", },
