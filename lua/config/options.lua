@@ -36,6 +36,7 @@ if not vim.g.vscode then
   opt.expandtab = true -- 使用空格（space）进行缩进而不是制表符（tab）
   opt.shiftwidth = 2 -- 一个综进的空格数
   opt.smartindent = true
+  opt.fileformats="unix,dos"
   opt.formatoptions = "jcroqlnt" -- tcqj
   opt.grepformat = "%f:%l:%c:%m"
   opt.grepprg = "rg --vimgrep"
