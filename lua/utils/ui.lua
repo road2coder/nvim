@@ -64,6 +64,9 @@ function M.statuscolumn()
     end
     vim.api.nvim_win_call(win, function()
       local lnum = vim.v.lnum
+      -- if vim.fn.foldclosed(lnum) >= 0 then
+      --   fold = { text = vim.opt.fillchars:get().foldclose or ">", texthl = "Folded" }
+      -- end
       if M.foldable(lnum) then
         if vim.fn.foldclosed(lnum) >= 0 then
           fold = { text = vim.opt.fillchars:get().foldclose or ">", texthl = "Folded" }

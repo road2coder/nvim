@@ -10,7 +10,6 @@
 --    vim.opt 和 vim.o 作用相同，但用法不同，可以参考 :h vim.opt
 -- 而和 let 相关的有 vim.g vim.w vim.b 等，它们设置的变量的生效范围不同。
 local opt = vim.opt
-local icons = require("config").icons
 
 vim.g.mapleader = " " -- leader 键，需要在设置按键映射之前设置
 
@@ -18,16 +17,16 @@ vim.g.mapleader = " " -- leader 键，需要在设置按键映射之前设置
 opt.clipboard = "unnamedplus" -- 使用系统剪切板
 opt.ignorecase = true -- 忽略大写小
 opt.smartcase = true -- 智能忽略大小写
-opt.undofile = true -- 持久化操作记录
-opt.undolevels = 10000
 if not vim.g.vscode then
-  vim.g.colorscheme = "tokyonight-storm"
+  vim.g.colorscheme = "tokyonight-moon"
   -- 安装了的主题，会在该主题加载后，自动设置 colorscheme
   vim.g.colorschemes = {
     "tokyonight.nvim",
     "catppuccin",
     "onedarkpro.nvim",
   }
+  opt.undofile = true -- 持久化操作记录
+  opt.undolevels = 10000
   opt.autowrite = true
   opt.completeopt = "menu,menuone,noselect"
   opt.conceallevel = 2
@@ -42,7 +41,7 @@ if not vim.g.vscode then
   opt.grepprg = "rg --vimgrep"
   opt.inccommand = "nosplit"
   opt.laststatus = 3
-  opt.list = true
+  opt.list = true -- 显示不可见字符，如 tab
   opt.mouse = "a" -- 所有模式可用鼠标
   opt.number = true -- 显示当前行号
   opt.relativenumber = true -- 显示相对行号

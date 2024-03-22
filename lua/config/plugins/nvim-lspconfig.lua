@@ -19,23 +19,23 @@ return {
     diagnostics = {
       underline = true,
       update_in_insert = false,
-      virtual_text = {
-        spacing = 4,
-        source = "if_many",
-        prefix = "●",
-        -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-        -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
-        -- prefix = "icons",
-      },
       severity_sort = true,
-      signs = {
-        text = {
-          [vim.diagnostic.severity.ERROR] = require("config").icons.diagnostics.Error,
-          [vim.diagnostic.severity.WARN] = require("config").icons.diagnostics.Warn,
-          [vim.diagnostic.severity.HINT] = require("config").icons.diagnostics.Hint,
-          [vim.diagnostic.severity.INFO] = require("config").icons.diagnostics.Info,
-        },
-      },
+      -- virtual_text = {
+      --   spacing = 4,
+      --   source = "if_many",
+      --   prefix = "●",
+      --   -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+      --   -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+      --   -- prefix = "icons",
+      -- },
+      -- signs = {
+      --   text = {
+      --     [vim.diagnostic.severity.ERROR] = require("config").icons.diagnostics.Error,
+      --     [vim.diagnostic.severity.WARN] = require("config").icons.diagnostics.Warn,
+      --     [vim.diagnostic.severity.HINT] = require("config").icons.diagnostics.Hint,
+      --     [vim.diagnostic.severity.INFO] = require("config").icons.diagnostics.Info,
+      --   },
+      -- },
     },
   },
   config = function(_, opts)
@@ -66,6 +66,12 @@ return {
       },
     })
     require("lspsaga").setup({})
+
+    -- diagnostics
+    for name, icon in pairs(require("config").icons.diagnostics) do
+      name = "DiagnosticSign" .. name
+      vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+    end
   end,
   keys = {
     { "gD", vim.lsp.buf.declaration, desc = "[G]oto [D]eclaration" },
