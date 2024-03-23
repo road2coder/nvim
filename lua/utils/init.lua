@@ -148,4 +148,17 @@ function M.convert_case(str, case)
   return result
 end
 
+function M.get_plug_name(plug_addr)
+  local s1 = string.gsub(plug_addr, ".*/", "")
+  local s2 = string.gsub(s1, "^nvim[.]", "")
+  local s3 = string.gsub(s2, "[.]nvim$", "")
+  return s3
+end
+
+function M.set_lazy_file_event()
+  local Event = require("lazy.core.handler.event")
+  Event.mappings.LazyFile = { id = "LazyFile", event = { "BufReadPost", "BufNewFile", "BufWritePre" } }
+  Event.mappings["User LazyFile"] = Event.mappings.LazyFile
+end
+
 return M

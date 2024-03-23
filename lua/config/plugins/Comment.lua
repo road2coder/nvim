@@ -1,4 +1,6 @@
 return {
+  vscode = true,
+  event = "VeryLazy",
   dependencies = {
     -- 不同位置不同注释（如 vue）
     {

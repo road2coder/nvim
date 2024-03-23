@@ -1,4 +1,5 @@
 return {
+  event = "VeryLazy",
   opts = {
     signs = {
       add = { text = "▎" },

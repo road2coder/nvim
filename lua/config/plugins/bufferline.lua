@@ -1,4 +1,5 @@
 return {
+  event = { "VeryLazy" },
   keys = {
     { "<leader>bp", "<CMD>BufferLineTogglePin<CR>", desc = "Toggle pin" },
     { "<leader>bP", "<CMD>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },

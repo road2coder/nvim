@@ -1,4 +1,5 @@
 return {
+  lazy = true,
   opts = {
     override = {
       deb = { icon = "", name = "Deb" },

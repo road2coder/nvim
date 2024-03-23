@@ -1,4 +1,7 @@
 return {
+  version = false, -- release 版本太老，在 windows 上有问题
+  build = ":TSUpdate",
+  event = { "VeryLazy", "BufReadPost", "BufNewFile", "BufWritePre" },
   init = function(plugin)
     require("lazy.core.loader").add_to_rtp(plugin)
     require("nvim-treesitter.query_predicates")
@@ -7,8 +10,7 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
     {
       "windwp/nvim-ts-autotag",
-      -- event = "LazyFile",
-      event = "VeryLazy",
+      event = { "BufReadPost", "BufNewFile", "BufWritePre" },
       opts = {},
     },
   },
@@ -91,15 +93,17 @@ return {
       },
     },
   },
-  config =  function(_, opts)
+  config = function(_, opts)
     if type(opts.ensure_installed) == "table" then
       local added = {}
       opts.ensure_installed = vim.tbl_filter(function(parser)
-        if added[parser] then return false end
+        if added[parser] then
+          return false
+        end
         added[parser] = true
         return true
       end, opts.ensure_installed)
     end
     require("nvim-treesitter.configs").setup(opts)
-  end
-} 
+  end,
+}

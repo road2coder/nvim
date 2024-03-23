@@ -1,4 +1,7 @@
 return {
+  name = "barbecue",
+  event = "VeryLazy",
+  dependencies = "SmiteshP/nvim-navic",
   opts = {
     attach_navic = false,
     theme = vim.g.colorscheme or nil,

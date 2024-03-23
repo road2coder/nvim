@@ -1,4 +1,7 @@
 return {
+  plug_is_lazy = {
+    plenary = true,
+  },
   icons = {
     mason = {
       package_installed = "✓",

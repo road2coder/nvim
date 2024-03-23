@@ -1,4 +1,6 @@
 return {
+  event = { "VeryLazy" },
+  dependencies = { "kevinhwang91/promise-async" },
   config = function()
     -- 一些必要的设置
     vim.opt.foldcolumn = "1"

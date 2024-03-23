@@ -1,4 +1,5 @@
 return {
+  event = { "BufReadPost", "BufNewFile", "BufWritePre" },
   dependencies = {
     "nvimtools/none-ls.nvim",
   },

@@ -5,6 +5,8 @@ local has_words_before = function()
 end
 
 return {
+  version = false, -- last release is way too old
+  event = "InsertEnter",
   dependencies = {
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-nvim-lsp",

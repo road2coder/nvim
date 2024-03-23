@@ -12,8 +12,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local not_in_vsc = not vim.g.vscode
+local spec = require("plugins")
 
-require("lazy").setup("plugins", {
+require("lazy").setup(spec, {
   defaults = {
     lazy = false,
     cond = function(opt)

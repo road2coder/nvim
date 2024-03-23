@@ -1,4 +1,5 @@
 return {
+  event = "VeryLazy",
   -- copy from lazyvim
   init = function()
     vim.g.lualine_laststatus = vim.o.laststatus

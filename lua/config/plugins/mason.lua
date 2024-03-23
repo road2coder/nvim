@@ -1,4 +1,5 @@
 return {
+  build = ":MasonUpdate",
   cmd = {
     "Mason",
     "MasonInstall",
@@ -13,7 +14,7 @@ return {
       icons = require("config").icons.mason,
     },
     -- 自动安装，lsp 写在 nvim-lspconfig 里
-    ensure_installed = { "eslint_d", "stylua", },
+    ensure_installed = { "eslint_d", "stylua" },
   },
   config = function(_, opts)
     require("mason").setup(opts)
@@ -40,5 +41,5 @@ return {
     else
       ensure_installed()
     end
-  end
+  end,
 }

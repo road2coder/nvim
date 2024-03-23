@@ -1,6 +1,9 @@
 local utils = require("utils")
 
 return {
+  cmd = "Telescope",
+  version = false, -- telescope did only one release, so use HEAD for now
+  lazy = false,
   dependencies = {
     {
       "nvim-telescope/telescope-fzf-native.nvim",

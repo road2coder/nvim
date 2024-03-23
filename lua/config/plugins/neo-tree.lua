@@ -1,4 +1,6 @@
 return {
+  branch = "v3.x",
+  cmd = "Neotree",
   keys = {
     { "<leader>e", "<cmd>Neotree left toggle<cr>", desc = "Toggle Explorer" },
     { "<leader>fe", "<cmd>Neotree float reveal toggle<cr>", desc = "Toggle Explorer(float)" },
