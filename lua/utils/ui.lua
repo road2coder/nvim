@@ -76,7 +76,8 @@ function M.statuscolumn()
       end
     end)
     -- Left: mark or non-git sign
-    components[1] = M.icon(M.get_mark(buf, vim.v.lnum) or left)
+    local len = vim.fn.has("win32") == 1 and 1 or 2 -- windows 第 1 列长度为 2 时会跳跃
+    components[1] = M.icon(M.get_mark(buf, vim.v.lnum) or left, len)
     -- Right: fold icon or git sign (only if file)
     components[3] = is_file and M.icon(fold or right) or ""
   end
