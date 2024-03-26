@@ -79,7 +79,6 @@ return {
     { "K", vim.lsp.buf.hover, desc = "[H]over" },
     -- { "gh", vim.lsp.buf.hover, desc = "[H]over" },
     { "gi", vim.lsp.buf.implementation, desc = "[G]oto [I]mplementation" },
-    { "gr", vim.lsp.buf.references, desc = "[G]oto [R]eferences" },
     { "\\f", vim.lsp.buf.format, desc = "[F]ormat(lsp)", mode = { "n", "v" } },
     -- use lspsaga
     { "gh", "<CMD>Lspsaga hover_doc<CR>", desc = "[H]over" },
@@ -90,6 +89,7 @@ return {
     -- { "", "<CMD>Lspsaga outline<CR>", desc = "Show [O]utline" },
     -- use telescope
     { "gd", "<CMD>Telescope lsp_definitions<CR>", desc = "[G]oto [D]efinition" },
+    { "gr", "<CMD>Telescope lsp_references<CR>", desc = "[G]oto [R]eferences" },
     { "<leader>sd", "<CMD>Telescope diagnostics bufnr=0<CR>", desc = "Document diagnostics" },
     { "<leader>sD", "<CMD>Telescope diagnostics<CR>", desc = "Workspace diagnostics" },
     { "<leader>ss", "<CMD>Telescope lsp_document_symbols<CR>", desc = "Document symbols" },
