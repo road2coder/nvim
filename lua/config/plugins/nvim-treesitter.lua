@@ -1,6 +1,7 @@
 return {
   version = false, -- release 版本太老，在 windows 上有问题
   build = ":TSUpdate",
+  vscode = true,
   event = { "VeryLazy", "BufReadPost", "BufNewFile", "BufWritePre" },
   init = function(plugin)
     require("lazy.core.loader").add_to_rtp(plugin)

@@ -1,6 +1,7 @@
 return {
   "echasnovski/mini.ai",
   event = "VeryLazy",
+  vscode = true,
   opts = function()
     local ai = require("mini.ai")
     return {

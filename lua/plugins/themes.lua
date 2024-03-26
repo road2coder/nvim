@@ -1,3 +1,7 @@
+if vim.g.vscode then
+  return {}
+end
+
 local catppuccin = require("config.plugins.catppuccin")
 local scheme_enabled = require("utils.ui").colorscheme_enabled
 
