@@ -103,3 +103,11 @@ autocmd("User", {
     end
   end,
 })
+
+-- 使用 o 时，不自动添加注释
+autocmd("BufEnter", {
+  group = augroup("no_comment_on_new_line"),
+  callback = function()
+    vim.opt_local.formatoptions:remove({ "o" })
+  end,
+})

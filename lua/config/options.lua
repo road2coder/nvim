@@ -7,7 +7,7 @@
 --    vim.go  相当于 setglobal
 --    vim.bo  相当于 setlocal
 --    vim.o   相当于 set（同时设置 global 和 local）
---    vim.opt 和 vim.o 作用相同，但用法不同，可以参考 :h vim.opt
+--    vim.opt vim.opt_local vim.opt_global:  和 vim.o vim.bo vim.go 作用相同，但用法不同，可以参考 :h vim.opt
 -- 而和 let 相关的有 vim.g vim.w vim.b 等，它们设置的变量的生效范围不同。
 local opt = vim.opt
 
@@ -36,8 +36,9 @@ if not vim.g.vscode then
   opt.expandtab = true -- 使用空格（space）进行缩进而不是制表符（tab）
   opt.shiftwidth = 2 -- 一个综进的空格数
   opt.smartindent = true
-  opt.fileformats="unix,dos"
+  opt.fileformats = "unix,dos"
   opt.formatoptions = "jcroqlnt" -- tcqj
+  -- opt.formatoptions = "jcroqlnt" -- tcqj
   opt.grepformat = "%f:%l:%c:%m"
   opt.grepprg = "rg --vimgrep"
   opt.inccommand = "nosplit"
