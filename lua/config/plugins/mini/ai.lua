@@ -5,6 +5,7 @@ return {
   opts = function()
     local ai = require("mini.ai")
     return {
+      n_lines = 200,
       custom_textobjects = {
         o = ai.gen_spec.treesitter({
           a = { "@block.outer", "@conditional.outer", "@loop.outer" },

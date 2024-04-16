@@ -51,13 +51,19 @@ return {
         function(lsp_name)
           -- 读取 lua/config/lsp/ 同名的文件
           local ok, lsp_config = pcall(require, "config.lsp." .. lsp_name)
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          -- 增加折叠的能力
+          capabilities.textDocument.foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+          }
           if not ok then
             lsp_config = {}
           end
           lsp_config.capabilities = vim.tbl_deep_extend(
             "force",
             {},
-            vim.lsp.protocol.make_client_capabilities(),
+            capabilities,
             require("cmp_nvim_lsp").default_capabilities(),
             lsp_config.capabilities or {}
           )
