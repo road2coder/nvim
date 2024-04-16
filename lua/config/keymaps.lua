@@ -18,7 +18,7 @@ map("v", "\\e", curry(utils.copy_selection, "pascal"), { desc = "copy(pascal)" }
 map("v", "\\r", curry(utils.copy_selection, "snake"), { desc = "copy(snake)" })
 
 map("v", "p", '"_dP', { desc = "paste multiple times" }) -- 一次复制可粘贴多次
-map("n", "\\i", "ggVG=<C-o><CR>")
+-- map("n", "\\i", "ggVG=<C-o><CR>")
 
 -- insert 模式下使用 ctrl-h/l 左右移动
 map("i", "<C-h>", "<Left>", { noremap = true, silent = true })
@@ -88,6 +88,17 @@ if not vim.g.vscode then
   map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
   map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
   map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+
+  -- tabs
+  map("n", "<leader>tl", "<cmd>tablast<cr>", { desc = "Last Tab" })
+  map("n", "<leader>tf", "<cmd>tabfirst<cr>", { desc = "First Tab" })
+  map("n", "<leader>tt", function()
+    local b = vim.api.nvim_buf_get_name(0)
+    return "<cmd>tabnew " .. b .. "<cr>"
+  end, { desc = "New Tab", expr = true })
+  map("n", "<leader>t]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+  map("n", "<leader>td", "<cmd>tabclose<cr>", { desc = "Close Tab" })
+  map("n", "<leader>t[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 else
   local action = require("vscode-neovim").action
 
