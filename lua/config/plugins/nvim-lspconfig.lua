@@ -8,6 +8,7 @@ return {
     { "folke/neoconf.nvim", cmd = "Neoconf", config = false },
   },
   opts = {
+    -- 使用 mason 安装的 lsp
     ensure_installed = {
       "lua_ls",
       "jsonls",
@@ -16,7 +17,10 @@ return {
       "cssls",
       "volar",
       "tsserver",
+      "taplo", -- toml
     },
+    -- 不使用 mason 安装的 lsp
+    servers = {},
     diagnostics = {
       underline = true,
       update_in_insert = false,
@@ -44,34 +48,40 @@ return {
     local plugin = require("lazy.core.config").spec.plugins["neoconf.nvim"]
     require("neoconf").setup(require("lazy.core.plugin").values(plugin, "opts", false))
 
+    local handlers = function(lsp_name)
+      -- 读取 lua/config/lsp/ 同名的文件
+      local ok, lsp_config = pcall(require, "config.lsp." .. lsp_name)
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      -- 增加折叠的能力
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+      }
+      if not ok then
+        lsp_config = {}
+      end
+      lsp_config.capabilities = vim.tbl_deep_extend(
+        "force",
+        {},
+        capabilities,
+        require("cmp_nvim_lsp").default_capabilities(),
+        lsp_config.capabilities or {}
+      )
+
+      require("lspconfig")[lsp_name].setup(lsp_config)
+    end
     -- 自动安装 lsp
     require("mason-lspconfig").setup({
       ensure_installed = opts.ensure_installed,
       handlers = {
-        function(lsp_name)
-          -- 读取 lua/config/lsp/ 同名的文件
-          local ok, lsp_config = pcall(require, "config.lsp." .. lsp_name)
-          local capabilities = vim.lsp.protocol.make_client_capabilities()
-          -- 增加折叠的能力
-          capabilities.textDocument.foldingRange = {
-            dynamicRegistration = false,
-            lineFoldingOnly = true,
-          }
-          if not ok then
-            lsp_config = {}
-          end
-          lsp_config.capabilities = vim.tbl_deep_extend(
-            "force",
-            {},
-            capabilities,
-            require("cmp_nvim_lsp").default_capabilities(),
-            lsp_config.capabilities or {}
-          )
-
-          require("lspconfig")[lsp_name].setup(lsp_config)
-        end,
+        handlers,
       },
     })
+
+    for _, lsp_name in ipairs(opts.servers) do
+      handlers(lsp_name)
+    end
+
     require("lspsaga").setup({})
 
     -- diagnostics

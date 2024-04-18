@@ -48,6 +48,10 @@ return {
       "vim",
       "vimdoc",
       "yaml",
+      -- rust 相关
+      "ron",
+      "rust",
+      "toml",
     },
     -- 扩选/缩选
     incremental_selection = {

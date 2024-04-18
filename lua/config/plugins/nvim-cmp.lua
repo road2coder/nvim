@@ -21,6 +21,15 @@ return {
         delete_check_events = "TextChanged",
       },
     },
+    {
+      "Saecki/crates.nvim",
+      event = { "BufRead Cargo.toml" },
+      opts = {
+        src = {
+          cmp = { enabled = true },
+        },
+      },
+    },
   },
   opts = {},
   config = function()
@@ -40,6 +49,7 @@ return {
         { name = "path" },
         { name = "luasnip" },
         { name = "buffer" },
+        { name = "crates" },
       },
       mapping = cmp.mapping.preset.insert({
         ["<Tab>"] = cmp.mapping(function(fallback)
